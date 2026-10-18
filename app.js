@@ -114,12 +114,17 @@ if(savedTab){
   if(savedBtn){
     document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===savedBtn)});
     document.querySelectorAll('.pn').forEach(function(p){p.classList.toggle('on',p.id===savedTab)});
+    var pn=document.querySelector('.pn.on');
+    if(pn)pn.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
   }
 }
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){
   document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===b)});
   document.querySelectorAll('.pn').forEach(function(p){p.classList.toggle('on',p.id===b.dataset.t)});
   s('cs-tab',b.dataset.t);
+  // раскрыть rv-элементы в только что показанной панели (скрытые при загрузке не получили .in)
+  var pn=document.querySelector('.pn.on');
+  if(pn)pn.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
 }});
 // copy
 document.querySelectorAll('.cp').forEach(function(b){b.onclick=function(){
