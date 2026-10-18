@@ -63,8 +63,12 @@
 <p>Отмечайте выполненное — прогресс сохраняется.</p>
 <div class="prog"><i id="pb"></i></div><p id="pt">Выполнено 0 из 1</p>
 <div class="step-wrap">
-<div class="step"><div class="num">1</div><div><h3>Силовые фермы</h3><label><input type="checkbox"><span>Соедини Силовые фермы A и B с помощью M3</span></label></div></div>
+<div class="step step-assembly">
+<div class="num">1</div>
+<div class="step-body"><h3>Силовые фермы</h3><p class="step-text">Соедини Силовые фермы A и B с помощью M3</p></div>
+<input type="checkbox" class="step-toggle" aria-label="Отметить шаг 1">
 <div class="step-img"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Соединение ферм A и B</div></div>
+</div>
 </div>
 </div>
 </main>
@@ -190,4 +194,15 @@ addEventListener('resize',function(){resize();show()});
 }catch(e){try{holder.innerHTML='<div class="model-loading">3D-просмотр: '+e.message+'</div>'}catch(_){}}
 })();
 </script>
-<script src="../app.js"></script></body></html>
+<script src="../app.js"></script>
+<script>
+document.querySelectorAll('.step-assembly').forEach(function(step){
+  var box=step.querySelector('.step-toggle');
+  if(!box)return;
+  step.addEventListener('click',function(e){
+    if(e.target.closest('a,button'))return;
+    box.checked=!box.checked;
+    box.dispatchEvent(new Event('change'));
+  });
+});
+</script></body></html>
