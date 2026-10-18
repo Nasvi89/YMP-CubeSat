@@ -4,11 +4,21 @@
 <script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="../style.css">
 <style>
+.assembly-layout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;margin-top:14px}
 .renders{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0 6px}
 .rnd{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
 .rnd-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px dashed var(--line);border-radius:8px;margin-bottom:6px;overflow:hidden}
 .rnd-img .ph{color:var(--muted);font-size:.72rem}
 .rnd-name{font-weight:700;font-size:.8rem;color:var(--text);line-height:1.25}
+.renders-col .grid{margin-top:16px}
+.model-view{position:sticky;top:80px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--sh)}
+.model-view svg{width:100%;height:auto;display:block;overflow:visible}
+.model-view .mv-cap{color:var(--muted);font-size:.78rem;text-align:center;margin-top:8px;line-height:1.4}
+.model-line{fill:none;stroke:var(--accent);stroke-width:1.3}
+.model-line.thin{stroke-width:.8;opacity:.7}
+.model-dim{fill:none;stroke:var(--muted);stroke-width:.7;stroke-dasharray:4 3}
+.model-tick{fill:none;stroke:var(--muted);stroke-width:.8}
+@media(max-width:900px){.assembly-layout{grid-template-columns:1fr}.model-view{position:static}}
 @media(max-width:480px){.renders{grid-template-columns:1fr}}
 </style></head>
 <body><main class="wrap">
@@ -16,6 +26,8 @@
 <div class="tabs"><button class="tab on" data-t="a">Чертёж модели</button><button class="tab" data-t="b">Инструкция по сборке</button></div>
 <div class="pn on" id="a">
 <div class="tag">ЭЛЕМЕНТЫ КОРПУСА</div>
+<div class="assembly-layout">
+<div class="renders-col">
 <div class="renders">
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панели ±X</div></div>
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панели ±Y</div></div>
@@ -29,7 +41,26 @@
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Крепление для монитора</div></div>
 </div>
 <div class="grid"><div class="card"><h3>Размеры</h3><ul class="l"><li>1U: 100 × 100 × 113,5 мм</li><li>Крепёж: винты M3</li><li>Шаг стоек: стандарт CubeSat</li></ul></div>
-<div class="card"><h3>Обозначения на чертеже</h3><p>Пунктиром показано положение несущих стоек и мест крепления солнечных панелей. Линии I²C выводятся на разъём платы-носителя.</p></div></div></div>
+<div class="card"><h3>Обозначения на чертеже</h3><p>Пунктиром показано положение несущих стоек и мест крепления солнечных панелей. Линии I²C выводятся на разъём платы-носителя.</p></div></div>
+</div>
+<div class="model-view"><div class="eyebrow" style="text-align:center">ОБЩИЙ ВИД</div><h3 style="text-align:center">Модель CubeSat</h3>
+<svg viewBox="0 0 320 260" aria-label="Общий вид модели CubeSat" role="img">
+<rect class="model-dim" x="30" y="40" width="140" height="140"/>
+<rect class="model-line" x="60" y="50" width="110" height="110"/>
+<path class="model-line" d="M60 50 L30 22 L140 22 L110 50"/>
+<path class="model-line" d="M30 22 L30 40 M140 22 L140 40 M60 50 L60 160 M170 50 L170 160 M110 50 L110 160"/>
+<rect class="model-line thin" x="72" y="62" width="86" height="86"/>
+<rect class="model-line" x="185" y="50" width="110" height="140"/>
+<path class="model-line" d="M185 50 L185 190 M295 50 L295 190"/>
+<path class="model-line" d="M185 30 L185 50 M295 30 L295 50"/>
+<line class="model-tick" x1="185" y1="38" x2="185" y2="22"/>
+<line class="model-tick" x1="295" y1="38" x2="295" y2="22"/>
+<path class="model-line" d="M185 190 L295 190"/>
+<rect class="model-line thin" x="197" y="62" width="86" height="116"/>
+</svg>
+<div class="mv-cap">Изометрия: фермы, панели и корпус детектора. 1U — 100 × 100 × 113,5 мм. Детальная 3D-модель — по запросу.</div>
+</div>
+</div>
 <div class="pn" id="b">
 <div class="grid"><div class="card"><h3>Инструменты</h3><ul class="l"><li>Прецизионные отвёртки</li><li>Мультиметр</li><li>Пинцет, бокорезы</li><li>Кабель для программирования</li></ul></div>
 <div class="card"><h3>Рабочее место</h3><p>Антистатическая поверхность или ESD-браслет.</p></div></div>
