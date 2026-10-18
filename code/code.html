@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Код · CubeSat</title>
+<script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="../style.css"></head>
+<body><main class="wrap">
+<div class="page"><div class="tag">02 · ПРОГРАММИРОВАНИЕ</div><h1>Программный код</h1>
+<p>Нужны библиотеки <b>Wire.h</b> (I²C) и <b>Adafruit_BMP280</b>. Скорость Serial Monitor — 9600.</p>
+<a class="card" href="https://wokwi.com/arduino" target="_blank" rel="noopener"><span class="ico">☁️</span><h3 class="link">Попробовать онлайн в Wokwi</h3><p>Симулятор Arduino в браузере — собери схему и проверь скетч без реальной платы. Откроется в новой вкладке.</p></a>
+<div class="tabs"><button class="tab on" data-t="a">Базовая программа</button><button class="tab" data-t="b">Структура телеметрии</button><button class="tab" data-t="c">Редактор</button><button class="tab" data-t="d">Альт. Редактор</button></div>
+<div class="pn on" id="a"><div class="code"><button class="cp">Копировать</button><pre>#include &lt;Wire.h&gt;
+#include &lt;Adafruit_BMP280.h&gt;
+
+Adafruit_BMP280 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Инициализация систем CubeSat...");
+  Wire.begin();
+  if (!bmp.begin(0x76)) {
+    Serial.println("Ошибка: BMP280 не найден!");
+    while (1);
+  }
+  Serial.println("Системы готовы.");
+}
+
+void loop() {
+  float t = bmp.readTemperature();
+  float p = bmp.readPressure() / 100.0F;  // Па -> гПа
+  Serial.print("Температура: "); Serial.print(t); Serial.println(" *C");
+  Serial.print("Давление: ");    Serial.print(p); Serial.println(" hPa");
+  Serial.println("-------------------------");
+  delay(2000);
+}</pre></div></div>
+<div class="pn" id="b"><div class="code"><button class="cp">Копировать</button><pre>struct Telemetry {
+  unsigned long time;   // мс с запуска
+  float temperature;
+  float pressure;
+  bool sensorOk;
+};
+
+Telemetry readTelemetry() {
+  Telemetry t;
+  t.time = millis();
+  t.temperature = bmp.readTemperature();
+  t.pressure = bmp.readPressure() / 100.0F;
+  t.sensorOk = !isnan(t.temperature) &amp;&amp; !isnan(t.pressure);
+  return t;
+}
+
+void sendTelemetry(const Telemetry&amp; t) {
+  Serial.print("TIME=");   Serial.print(t.time);
+  Serial.print(";TEMP=");  Serial.print(t.temperature, 2);
+  Serial.print(";PRESS="); Serial.print(t.pressure, 2);
+  Serial.print(";SENSOR="); Serial.println(t.sensorOk ? "OK" : "ERROR");
+}</pre></div></div>
+<div class="pn" id="c"><div class="editor"><div class="ed-filebar"><span id="ed-filename">АВТОСОХРАНЕНИЕ</span><div class="ed-fb-right"><button class="cp2" id="ed-history" type="button">↺ Версии</button><div class="ed-hist-menu" id="ed-hist-menu"><div class="ed-hist-item" data-v="switch">С выбором другого файла</div><div class="ed-hist-item" data-v="load">После загрузки страницы</div><div class="ed-hist-item" data-v="last">Последнее изменение</div></div></div></div><div class="edwrap"><div class="edbox"><pre id="ed-hl" aria-hidden="true"></pre><textarea id="ed" rows="14" spellcheck="false" placeholder="// Введите свой код здесь — он сохраняется автоматически"></textarea></div><div class="files-panel" id="files-panel"><div class="fp-head" id="fp-head">Файлы <span class="fp-tog" id="fp-tog">▾</span></div><div class="fp-body" id="fp-body"><div class="fp-info">Файлы:</div><div class="fp-actions"><button class="cp2" id="fp-save">Сохранить в файл</button><button class="cp2" id="fp-new">Создать файл</button></div><ul id="fp-list"></ul></div></div></div><div class="sug" id="sug"></div><div class="edbar"><span>Автосохранение</span><span id="ed-err"></span><button class="cp2" id="ed-clr">Очистить</button></div></div></div></div>
+<div class="pn" id="d"><div class="alt-editor"><div class="editor">
+<div class="ed-filebar"><span id="l-filename">АВТОСОХРАНЕНИЕ</span><div class="ed-fb-right"><button class="cp2" type="button" data-histbtn>↺ Версии</button><div class="ed-hist-menu" data-histmenu><div class="ed-hist-item" data-v="switch">С выбором другого файла</div><div class="ed-hist-item" data-v="load">После загрузки страницы</div><div class="ed-hist-item" data-v="last">Последнее изменение</div></div></div></div>
+<div class="edwrap"><div class="edbox"><pre data-hl aria-hidden="true"></pre><textarea data-ed rows="14" spellcheck="false" placeholder="// Левый редактор"></textarea></div><div class="files-panel" data-files><div class="fp-head" data-fphead>Файлы <span data-fptog>▾</span></div><div class="fp-body"><div class="fp-info">Файлы:</div><div class="fp-actions"><button class="cp2" data-fpsave>Сохранить в файл</button><button class="cp2" data-fpnew>Создать файл</button></div><ul data-fplist></ul></div></div></div>
+<div class="sug" data-sug></div><div class="edbar"><span>Автосохранение</span><span data-ederr></span><button class="cp2" data-edclr>Очистить</button></div>
+</div><div class="alt-sep"></div><div class="editor">
+<div class="ed-filebar"><span id="r-filename">АВТОСОХРАНЕНИЕ</span><div class="ed-fb-right"><button class="cp2" type="button" data-histbtn>↺ Версии</button><div class="ed-hist-menu" data-histmenu><div class="ed-hist-item" data-v="switch">С выбором другого файла</div><div class="ed-hist-item" data-v="load">После загрузки страницы</div><div class="ed-hist-item" data-v="last">Последнее изменение</div></div></div></div>
+<div class="edwrap"><div class="edbox"><pre data-hl aria-hidden="true"></pre><textarea data-ed rows="14" spellcheck="false" placeholder="// Правый редактор"></textarea></div><div class="files-panel" data-files><div class="fp-head" data-fphead>Файлы <span data-fptog>▾</span></div><div class="fp-body"><div class="fp-info">Файлы:</div><div class="fp-actions"><button class="cp2" data-fpsave>Сохранить в файл</button><button class="cp2" data-fpnew>Создать файл</button></div><ul data-fplist></ul></div></div></div>
+<div class="sug" data-sug></div><div class="edbar"><span>Автосохранение</span><span data-ederr></span><button class="cp2" data-edclr>Очистить</button></div>
+</div></div></div>
+<div class="grid"><div class="card"><h3>Поля пакета</h3><ul class="l"><li><b>TIME</b> — время измерения</li><li><b>TEMP</b> — температура</li><li><b>PRESS</b> — давление</li><li><b>SENSOR</b> — состояние датчика</li></ul></div>
+<div class="card"><h3>Рекомендации</h3><ul class="l"><li>Единый формат данных</li><li>Признак ошибки в каждом пакете</li><li>Телеметрия отдельно от отладки</li><li>Фиксированный интервал измерений</li></ul></div></div>
+</main><script type="application/json" id="files-manifest">{"пример.txt":"Пример файла для панели \"Файлы\".\n\nПоложите сюда любые .txt файлы — они появятся в списке\nсправа от редактора на странице \"Код\"."}</script>
+<script src="../app.js"></script></body></html>

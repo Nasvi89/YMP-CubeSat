@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сборка · CubeSat</title>
+<script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+.renders{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:14px 0 6px}
+.rnd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.rnd-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px dashed var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.rnd-img .ph{color:var(--muted);font-size:.85rem}
+.rnd-name{font-weight:700;font-size:.95rem;color:var(--text)}
+</style></head>
+<body><main class="wrap">
+<div class="page"><div class="tag">01 · МЕХАНИКА И ЭЛЕКТРОНИКА</div><h1>Сборка</h1>
+<div class="tabs"><button class="tab on" data-t="a">Чертёж модели</button><button class="tab" data-t="b">Инструкция по сборке</button></div>
+<div class="pn on" id="a"><div class="tag">ЧЕРТЁЖ</div><h2>Модель CubeSat</h2>
+<p>Габариты единичного модуля 1U — 100 × 100 × 113,5 мм. Макет допускает форматы 1U/2U/3U.</p>
+<div class="tw"><table><thead><tr><th>Слой</th><th>Узел</th></tr></thead><tbody>
+<tr><td>1</td><td>Верхняя панель (антенна GPS/ГЛОНАСС)</td></tr>
+<tr><td>2</td><td>Солнечные панели (боковые грани)</td></tr>
+<tr><td>3</td><td>Плата-носитель (PCB) с микроконтроллером</td></tr>
+<tr><td>4</td><td>Модуль питания и аккумулятор</td></tr>
+<tr><td>5</td><td>Датчик BMP280 (I²C 0x76/0x77)</td></tr>
+<tr><td>6</td><td>Нижняя панель, рама и стойки</td></tr></tbody></table></div>
+<div class="tag">ЭЛЕМЕНТЫ КОРПУСА</div><h3>Рендеры деталей</h3>
+<div class="renders">
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель +X</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель −X</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель +Y</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель −Y</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель +Z</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель −Z</div></div>
+</div>
+<div class="grid"><div class="card"><h3>Размеры</h3><ul class="l"><li>1U: 100 × 100 × 113,5 мм</li><li>Крепёж: винты M3</li><li>Шаг стоек: стандарт CubeSat</li></ul></div>
+<div class="card"><h3>Обозначения на чертеже</h3><p>Пунктиром показано положение несущих стоек и мест крепления солнечных панелей. Линии I²C выводятся на разъём платы-носителя.</p></div></div></div>
+<div class="pn" id="b"><div class="tag">СОСТАВ КОМПЛЕКТА</div><h2>Инструкция по сборке</h2>
+<p>Сначала сверьте комплект, затем собирайте по шагам. Отмечайте выполненное: прогресс сохраняется.</p>
+<div class="tw"><table><thead><tr><th>Узел</th><th>Назначение</th></tr></thead><tbody>
+<tr><td>Рама 1U/2U/3U, панели, стойки, винты M3</td><td>Несущая конструкция</td></tr>
+<tr><td>Плата-носитель (PCB)</td><td>Объединяет модули, разводит питание и сигналы</td></tr>
+<tr><td>Модуль питания и аккумулятор</td><td>Источник энергии, контроллер заряда</td></tr>
+<tr><td>Микроконтроллер</td><td>«Бортовой компьютер»</td></tr>
+<tr><td>Датчик BMP280</td><td>Температура и давление по I²C (0x76/0x77)</td></tr>
+<tr><td>GPS/ГЛОНАСС с антенной</td><td>Координаты и время</td></tr>
+<tr><td>Учебные солнечные панели</td><td>Имитация электроснабжения</td></tr></tbody></table></div>
+<div class="grid"><div class="card"><h3>Инструменты</h3><ul class="l"><li>Прецизионные отвёртки</li><li>Мультиметр</li><li>Пинцет, бокорезы</li><li>Кабель для программирования</li></ul></div>
+<div class="card"><h3>Рабочее место</h3><p>Антистатическая поверхность или ESD-браслет.</p></div></div>
+<section><div class="tag">ХОД СБОРКИ</div><h2>Пошаговая сборка</h2>
+<div class="prog"><i id="pb"></i></div><p id="pt"></p>
+<div class="step"><div class="num">1</div><div><h3>Подготовка корпуса</h3><label><input type="checkbox"><span>Раму и стойки осмотрели, повреждений нет</span></label><label><input type="checkbox"><span>Крепёж пересчитан</span></label><label><input type="checkbox"><span>Нижняя панель установлена, винты M3 затянуты не до конца</span></label></div></div>
+<div class="step"><div class="num">2</div><div><h3>Монтаж электроники</h3><label><input type="checkbox"><span>PCB установлена на стойки</span></label><label><input type="checkbox"><span>Аккумулятор закреплён, провода не натянуты</span></label><label><input type="checkbox"><span>Микроконтроллер закреплён, разъёмы доступны</span></label></div></div>
+<div class="step"><div class="num">3</div><div><h3>Подключение датчиков</h3><label><input type="checkbox"><span>BMP280 подключён к I²C (SDA, SCL, питание, GND)</span></label><label><input type="checkbox"><span>GPS/ГЛОНАСС и антенна установлены</span></label><label><input type="checkbox"><span>Кабели зафиксированы</span></label></div></div>
+<div class="step"><div class="num">4</div><div><h3>Солнечные панели</h3><label><input type="checkbox"><span>Панели закреплены на боковых гранях</span></label><label><input type="checkbox"><span>Подключены к контроллеру заряда по схеме</span></label></div></div>
+<div class="step"><div class="num">5</div><div><h3>Закрытие и контроль</h3><label><input type="checkbox"><span>Крышка установлена, люфтов нет</span></label><label><input type="checkbox"><span>Полярность проверена мультиметром</span></label><label><input type="checkbox"><span>Короткое замыкание исключено</span></label></div></div>
+<div class="note w"><b>Безопасность.</b> Питание подключайте только после проверки полярности. При нагреве платы или запахе гари сразу отключите аккумулятор.</div></section></div>
+</main><script src="../app.js"></script></body></html>
