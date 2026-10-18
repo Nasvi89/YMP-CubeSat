@@ -124,8 +124,9 @@ tr:last-child td{border-bottom:0}
 .wokwi-note b{color:var(--accent)}
 .wokwi-note .wk-txt{color:var(--muted)}
 .wokwi-note>div{flex:1;min-width:0}
-.wk-go{display:inline-flex;align-items:center;gap:5px;flex:none;padding:7px 12px;border:1px solid var(--accent);border-radius:9px;background:var(--accent);color:#04202e;font-size:.8rem;font-weight:800;box-shadow:0 0 8px var(--accent);cursor:pointer;text-decoration:none;transition:background .2s,color .2s,box-shadow .2s}
-.wk-go:hover{background:var(--accent-t);color:var(--accent);box-shadow:none}
+.wk-go{display:inline-flex;align-items:center;gap:5px;flex:none;padding:7px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#0b1322;font-size:.8rem;font-weight:800;box-shadow:var(--sh);cursor:pointer;text-decoration:none;transition:background .2s,color .2s,box-shadow .2s}
+.wk-go:hover{background:rgba(255,255,255,.85);color:#0b1322;box-shadow:none}
+.wk-go b{color:inherit}
 .wk-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1px solid var(--line);background:var(--soft);border-radius:8px;color:var(--muted);text-decoration:none;font-size:.9rem;flex:none;transition:color .2s,border-color .2s,background .2s}
 .wk-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-t)}
 .alt-editor{display:flex;gap:0;align-items:stretch}
