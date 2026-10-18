@@ -4,13 +4,12 @@
 <script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="../style.css">
 <style>
-.renders{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:14px 0 6px}
-@media(max-width:760px){.renders{grid-template-columns:repeat(2,1fr)}}
+.renders{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:14px 0 6px}
+.rnd{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.rnd-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px dashed var(--line);border-radius:8px;margin-bottom:6px;overflow:hidden}
+.rnd-img .ph{color:var(--muted);font-size:.72rem}
+.rnd-name{font-weight:700;font-size:.8rem;color:var(--text);line-height:1.25}
 @media(max-width:480px){.renders{grid-template-columns:1fr}}
-.rnd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
-.rnd-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px dashed var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
-.rnd-img .ph{color:var(--muted);font-size:.85rem}
-.rnd-name{font-weight:700;font-size:.95rem;color:var(--text)}
 </style></head>
 <body><main class="wrap">
 <div class="page"><div class="tag">01 · МЕХАНИКА И ЭЛЕКТРОНИКА</div><h1>Сборка</h1>
@@ -18,9 +17,9 @@
 <div class="pn on" id="a">
 <div class="tag">ЭЛЕМЕНТЫ КОРПУСА</div>
 <div class="renders">
-<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель ±X</div></div>
-<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель ±Y</div></div>
-<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панель ±Z</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панели ±X</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панели ±Y</div></div>
+<div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Панели ±Z</div></div>
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Силовая ферма A (2 шт)</div></div>
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Силовая ферма B (2 шт)</div></div>
 <div class="rnd"><div class="rnd-img"><span class="ph">рендер</span></div><div class="rnd-name">Шпажки (4 шт)</div></div>
