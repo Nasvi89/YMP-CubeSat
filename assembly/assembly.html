@@ -27,7 +27,7 @@
 </style></head>
 <body><main class="wrap">
 <div class="page"><div class="tag">01 · МЕХАНИКА И ЭЛЕКТРОНИКА</div><h1>Сборка</h1>
-<div class="tabs"><button class="tab on" data-t="a">Чертёж модели</button><button class="tab" data-t="b">Инструкция по сборке</button></div>
+<div class="tabs"><button class="tab on" data-t="a">Чертёж модели</button></div>
 <div class="pn on" id="a">
 <div class="tag">ЭЛЕМЕНТЫ КОРПУСА</div>
 <div class="assembly-layout">
@@ -56,27 +56,8 @@
 <div class="mv-cap">Интерактивное 3D-представление. Поворот сохраняется при переключении вида. Полная сборка 1U — 100 × 100 × 113,5 мм. Сначала без панелей.</div>
 </div>
 </div>
-<div class="pn" id="b">
-<div class="tag">СОСТАВ КОМПЛЕКТА</div><h2>Инструкция по сборке</h2>
-<p>Сначала сверьте комплект, затем собирайте по шагам. Отмечайте выполненное: прогресс сохраняется.</p>
-<div class="tw"><table><thead><tr><th>Узел</th><th>Назначение</th></tr></thead><tbody>
-<tr><td>Рама 1U/2U/3U, панели, стойки, винты M3</td><td>Несущая конструкция</td></tr>
-<tr><td>Плата-носитель (PCB)</td><td>Объединяет модули, разводит питание и сигналы</td></tr>
-<tr><td>Модуль питания и аккумулятор</td><td>Источник энергии, контроллер заряда</td></tr>
-<tr><td>Микроконтроллер</td><td>«Бортовой компьютер»</td></tr>
-<tr><td>Датчик BMP280</td><td>Температура и давление по I²C (0x76/0x77)</td></tr>
-<tr><td>GPS/ГЛОНАСС с антенной</td><td>Координаты и время</td></tr>
-<tr><td>Учебные солнечные панели</td><td>Имитация электроснабжения</td></tr></tbody></table></div>
-<div class="grid"><div class="card"><h3>Инструменты</h3><ul class="l"><li>Прецизионные отвёртки</li><li>Мультиметр</li><li>Пинцет, бокорезы</li><li>Кабель для программирования</li></ul></div>
-<div class="card"><h3>Рабочее место</h3><p>Антистатическая поверхность или ESD-браслет.</p></div></div>
-<section><div class="tag">ХОД СБОРКИ</div><h2>Пошаговая сборка</h2>
-<div class="prog"><i id="pb"></i></div><p id="pt"></p>
-<div class="step"><div class="num">1</div><div><h3>Подготовка корпуса</h3><label><input type="checkbox"><span>Раму и стойки осмотрели, повреждений нет</span></label><label><input type="checkbox"><span>Крепёж пересчитан</span></label><label><input type="checkbox"><span>Нижняя панель установлена, винты M3 затянуты не до конца</span></label></div></div>
-<div class="step"><div class="num">2</div><div><h3>Монтаж электроники</h3><label><input type="checkbox"><span>PCB установлена на стойки</span></label><label><input type="checkbox"><span>Аккумулятор закреплён, провода не натянуты</span></label><label><input type="checkbox"><span>Микроконтроллер закреплён, разъёмы доступны</span></label></div></div>
-<div class="step"><div class="num">3</div><div><h3>Подключение датчиков</h3><label><input type="checkbox"><span>BMP280 подключён к I²C (SDA, SCL, питание, GND)</span></label><label><input type="checkbox"><span>GPS/ГЛОНАСС и антенна установлены</span></label><label><input type="checkbox"><span>Кабели зафиксированы</span></label></div></div>
-<div class="step"><div class="num">4</div><div><h3>Солнечные панели</h3><label><input type="checkbox"><span>Панели закреплены на боковых гранях</span></label><label><input type="checkbox"><span>Подключены к контроллеру заряда по схеме</span></label></div></div>
-<div class="step"><div class="num">5</div><div><h3>Закрытие и контроль</h3><label><input type="checkbox"><span>Крышка установлена, люфтов нет</span></label><label><input type="checkbox"><span>Полярность проверена мультиметром</span></label><label><input type="checkbox"><span>Короткое замыкание исключено</span></label></div></div>
-<div class="note w"><b>Безопасность.</b> Питание подключайте только после проверки полярности. При нагреве платы или запахе гари сразу отключите аккумулятор.</div></section></div>
+</div>
+</div>
 </main>
 <script src="models/three.min.js"></script>
 <script>
