@@ -4,7 +4,7 @@
 <script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="../style.css">
 <style>
-.assembly-layout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;margin-top:14px}
+.assembly-layout{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start;margin-top:14px}
 .renders{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0 6px}
 .rnd{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
 .rnd-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px dashed var(--line);border-radius:8px;margin-bottom:6px;overflow:hidden}
@@ -12,12 +12,16 @@
 .rnd-name{font-weight:700;font-size:.8rem;color:var(--text);line-height:1.25}
 .renders-col .grid{margin-top:16px}
 .model-view{position:sticky;top:80px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--sh)}
-.model-view svg{width:100%;height:auto;display:block;overflow:visible}
-.model-view .mv-cap{color:var(--muted);font-size:.78rem;text-align:center;margin-top:8px;line-height:1.4}
-.model-line{fill:none;stroke:var(--accent);stroke-width:1.3}
-.model-line.thin{stroke-width:.8;opacity:.7}
-.model-dim{fill:none;stroke:var(--muted);stroke-width:.7;stroke-dasharray:4 3}
-.model-tick{fill:none;stroke:var(--muted);stroke-width:.8}
+.model-canvas{position:relative;width:100%;aspect-ratio:1;border:1px dashed var(--line);border-radius:10px;background:var(--soft);overflow:hidden}
+.model-canvas canvas{display:block;width:100%;height:100%}
+.model-canvas .mv-hint{position:absolute;left:0;right:0;bottom:6px;text-align:center;color:var(--muted);font-size:.68rem;pointer-events:none}
+.mv-cap{color:var(--muted);font-size:.78rem;text-align:center;margin-top:8px;line-height:1.4}
+.mv-toggle{display:flex;overflow:hidden;border:1px solid var(--line);border-radius:10px;margin-top:10px}
+.mv-toggle button{flex:1;padding:8px 6px;border:0;border-right:1px solid var(--line);background:var(--soft);color:var(--muted);font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s}
+.mv-toggle button:last-child{border-right:0}
+.mv-toggle button:hover{color:var(--accent)}
+.mv-toggle button.on{background:var(--accent);color:#04202e}
+.model-loading{text-align:center;color:var(--muted);font-size:.8rem;padding:30px 0}
 @media(max-width:900px){.assembly-layout{grid-template-columns:1fr}.model-view{position:static}}
 @media(max-width:480px){.renders{grid-template-columns:1fr}}
 </style></head>
@@ -44,21 +48,12 @@
 <div class="card"><h3>Обозначения на чертеже</h3><p>Пунктиром показано положение несущих стоек и мест крепления солнечных панелей. Линии I²C выводятся на разъём платы-носителя.</p></div></div>
 </div>
 <div class="model-view"><div class="eyebrow" style="text-align:center">ОБЩИЙ ВИД</div><h3 style="text-align:center">Модель CubeSat</h3>
-<svg viewBox="0 0 320 260" aria-label="Общий вид модели CubeSat" role="img">
-<rect class="model-dim" x="30" y="40" width="140" height="140"/>
-<rect class="model-line" x="60" y="50" width="110" height="110"/>
-<path class="model-line" d="M60 50 L30 22 L140 22 L110 50"/>
-<path class="model-line" d="M30 22 L30 40 M140 22 L140 40 M60 50 L60 160 M170 50 L170 160 M110 50 L110 160"/>
-<rect class="model-line thin" x="72" y="62" width="86" height="86"/>
-<rect class="model-line" x="185" y="50" width="110" height="140"/>
-<path class="model-line" d="M185 50 L185 190 M295 50 L295 190"/>
-<path class="model-line" d="M185 30 L185 50 M295 30 L295 50"/>
-<line class="model-tick" x1="185" y1="38" x2="185" y2="22"/>
-<line class="model-tick" x1="295" y1="38" x2="295" y2="22"/>
-<path class="model-line" d="M185 190 L295 190"/>
-<rect class="model-line thin" x="197" y="62" width="86" height="116"/>
-</svg>
-<div class="mv-cap">Изометрия: фермы, панели и корпус детектора. 1U — 100 × 100 × 113,5 мм. Детальная 3D-модель — по запросу.</div>
+<div class="model-canvas" id="model3d"><div class="model-loading">Загрузка 3D-модели…</div></div>
+<div class="mv-toggle" id="modelToggle" role="tablist" aria-label="Вид модели">
+<button type="button" data-mode="noPanels" class="on" aria-pressed="true">Без панелей</button>
+<button type="button" data-mode="panels" aria-pressed="false">С панелями</button>
+</div>
+<div class="mv-cap">Интерактивное 3D-представление. Поворот сохраняется при переключении вида. Полная сборка 1U — 100 × 100 × 113,5 мм. Сначала без панелей.</div>
 </div>
 </div>
 <div class="pn" id="b">
@@ -72,4 +67,124 @@
 <div class="step"><div class="num">4</div><div><h3>Солнечные панели</h3><label><input type="checkbox"><span>Панели закреплены на боковых гранях</span></label><label><input type="checkbox"><span>Подключены к контроллеру заряда по схеме</span></label></div></div>
 <div class="step"><div class="num">5</div><div><h3>Закрытие и контроль</h3><label><input type="checkbox"><span>Крышка установлена, люфтов нет</span></label><label><input type="checkbox"><span>Полярность проверена мультиметром</span></label><label><input type="checkbox"><span>Короткое замыкание исключено</span></label></div></div>
 <div class="note w"><b>Безопасность.</b> Питание подключайте только после проверки полярности. При нагреве платы или запахе гари сразу отключите аккумулятор.</div></section></div>
-</main><script src="../app.js"></script></body></html>
+</main>
+<script src="models/three.min.js"></script>
+<script>
+(function(){
+var holder=document.getElementById('model3d');
+var toggle=document.getElementById('modelToggle');
+if(!holder||!window.THREE){if(holder)holder.innerHTML='<div class="model-loading">3D-просмотр недоступен</div>';return;}
+var W={},D={};
+var wait=[];
+function fetchBin(u){
+  return fetch(u).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.arrayBuffer();
+  }).then(function(buf){
+    var dv=new DataView(buf);
+    var n=Math.floor((buf.byteLength-84)/50);
+    var pos=new Float32Array(n*9);
+    var o=0;
+    for(var i=0;i<n;i++){
+      var rec=84+i*50+12;
+      for(var k=0;k<9;k++){
+        pos[o++]=dv.getFloat32(rec+k*4,true);
+      }
+    }
+    return {pos:pos,count:n};
+  });
+}
+function buildMesh(data){
+  var geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(data.pos,3));
+  geo.computeVertexNormals();
+  var mat=new THREE.MeshStandardMaterial({color:0x7fb8d8,metalness:.35,roughness:.5,flatShading:false});
+  return new THREE.Mesh(geo,mat);
+}
+function loadAll(){
+  var urls={
+    noPanels:'models/sirius-no-panels.stl',
+    panels:'models/sirius-panels.stl'
+  };
+  return Promise.all([
+    fetchBin(urls.noPanels).then(function(d){W.noPanels=buildMesh(d);}),
+    fetchBin(urls.panels).then(function(d){W.panels=buildMesh(d);})
+  ]);
+}
+// renderer
+var renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(window.devicePixelRatio||1);
+holder.innerHTML='';
+holder.appendChild(renderer.domElement);
+var hint=document.createElement('div');hint.className='mv-hint';hint.textContent='Вращайте — зажим и перетаскивание · колесо — масштаб';holder.appendChild(hint);
+// scene
+var scene=new THREE.Scene();
+scene.add(new THREE.AmbientLight(0xffffff,0.65));
+scene.add(new THREE.DirectionalLight(0xffffff,0.9));
+var cam=new THREE.PerspectiveCamera(45,1,0.01,100);
+var group=new THREE.Group();scene.add(group);
+// state
+var mode='noPanels',quat=null,zoom=1.0;
+function resize(){
+  var r=holder.getBoundingClientRect();
+  var w=r.width||300,h=r.height||300;
+  renderer.setSize(w,h,false);
+  cam.aspect=w/h;cam.updateProjectionMatrix();
+}
+function centerOn(obj){
+  obj.geometry.computeBoundingBox();
+  var bb=obj.geometry.boundingBox;var c=new THREE.Vector3();
+  bb.getCenter(c);var size=bb.getSize(new THREE.Vector3());
+  var maxDim=Math.max(size.x,size.y,size.z);
+  obj.position.copy(c).multiplyScalar(-1);
+  cam.position.set(0,0,maxDim*2.4);
+  cam.near=0.001;cam.far=maxDim*20;cam.updateProjectionMatrix();
+  group.add(obj);
+}
+function show(){
+  group.children.forEach(function(o){o.visible=false});
+  var obj=W[mode];obj.visible=true;
+  if(quat)obj.quaternion.copy(quat);
+  var s=zoom;group.scale.set(s,s,s);
+  var r=holder.getBoundingClientRect();
+  renderer.render(scene,cam);
+}
+loadAll().then(function(){
+  centerOn(W.noPanels);centerOn(W.panels);
+  var obj=W[mode];
+  var r=holder.getBoundingClientRect();resize();
+  if(quat)obj.quaternion.copy(quat);
+  show();
+  run();
+}).catch(function(e){
+  holder.innerHTML='<div class="model-loading">Не удалось загрузить модель: '+e.message+'</div>';
+});
+// orbit
+var dragging=false,px=0,py=0;
+var rot={x:0.6,y:0.6};
+var rr={x:0.6,y:0.6};
+function applyRot(){
+  var e=new THREE.Euler(rr.x,rr.y,0,'YXZ');
+  quat=new THREE.Quaternion().setFromEuler(e);
+  show();
+}
+renderer.domElement.addEventListener('mousedown',function(e){dragging=true;px=e.clientX;py=e.clientY;renderer.domElement.style.cursor='grabbing'});
+addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;rr.y+=dx*0.01;rr.x+=dy*0.01;rr.x=Math.max(-1.5,Math.min(1.5,rr.x));applyRot();});
+addEventListener('mouseup',function(){dragging=false;renderer.domElement.style.cursor='grab'});
+renderer.domElement.style.cursor='grab';
+renderer.domElement.addEventListener('wheel',function(e){e.preventDefault();zoom*=e.deltaY>0?0.9:1.1;zoom=Math.max(0.3,Math.min(5,zoom));show();},{passive:false});
+// touch
+renderer.domElement.addEventListener('touchstart',function(e){var t=e.touches[0];dragging=true;px=t.clientX;py=t.clientY},{passive:true});
+renderer.domElement.addEventListener('touchmove',function(e){if(!dragging)return;var t=e.touches[0];var dx=t.clientX-px,dy=t.clientY-py;px=t.clientX;py=t.clientY;rr.y+=dx*0.01;rr.x+=dy*0.01;rr.x=Math.max(-1.5,Math.min(1.5,rr.x));applyRot();},{passive:true});
+renderer.domElement.addEventListener('touchend',function(){dragging=false},{passive:true});
+function run(){requestAnimationFrame(run)}
+function setMode(m){
+  mode=m;
+  toggle.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.mode===m);b.setAttribute('aria-pressed',b.dataset.mode===m?'true':'false')});
+  show();
+}
+toggle.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
+addEventListener('resize',function(){resize();show()});
+})();
+</script>
+<script src="../app.js"></script></body></html>
