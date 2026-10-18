@@ -101,7 +101,7 @@ if(earth){
   });
 }
 // reveal
-var els=document.querySelectorAll('main .card,main .step,main details.lab,main .tw,main .note,main h2,main .tag,main .stats,main .hero>div,main .prog');
+var els=Array.prototype.filter.call(document.querySelectorAll('main .card,main .step,main details.lab,main .tw,main .note,main h2,main .tag,main .stats,main .hero>div,main .prog'),function(el){return !el.closest('.pn')});
 els.forEach(function(el){var i=[].indexOf.call(el.parentNode.children,el);el.classList.add('rv');el.style.setProperty('--d',(i%6)*70+'ms')});
 if('IntersectionObserver' in window){
   var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
