@@ -81,6 +81,7 @@
 <script src="models/three.min.js"></script>
 <script>
 (function(){
+try{
 var holder=document.getElementById('model3d');
 var toggle=document.getElementById('modelToggle');
 if(!holder||!window.THREE){if(holder)holder.innerHTML='<div class="model-loading">3D-просмотр недоступен</div>';return;}
@@ -196,6 +197,7 @@ function setMode(m){
 }
 toggle.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
 addEventListener('resize',function(){resize();show()});
+}catch(e){try{holder.innerHTML='<div class="model-loading">3D-просмотр: '+e.message+'</div>'}catch(_){}}
 })();
 </script>
 <script src="../app.js"></script></body></html>
