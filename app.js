@@ -6,7 +6,7 @@ var pal=g('cs-palette');
 if(pal&&pal!==R.dataset.palette)R.dataset.palette=pal;
 var pth=location.pathname||'';
 var base=/(^|\/)(assembly|code|practice|diag)\//.test(pth)?'../':'';
-var P=[['Методическое пособие.html','Обзор'],['assembly/assembly.html','Сборка'],['code/code.html','Код'],['practice/practice.html','Практика'],['diag/diag.html','Отчёт']];
+var P=[['Методическое пособие.html','Обзор'],['assembly/assembly.html','Сборка'],['code/code.html','Код'],['practice/practice.html','Практика'],['diag/diag.html','Контроль']];
 var last=pth.split('/').filter(Boolean).pop()||'';
 var ci=0;
 for(var i=0;i<P.length;i++){if(P[i][0].split('/').pop()===last){ci=i;break}}
