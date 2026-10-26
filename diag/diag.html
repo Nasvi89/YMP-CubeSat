@@ -1,13 +1,210 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Оформление отчёта · CubeSat</title>
+<title>Контрольный тест · CubeSat</title>
 <script>try{var t=localStorage.getItem('cs-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<link rel="stylesheet" href="../style.css"></head>
+<link rel="stylesheet" href="../style.css">
+<style>
+.test-person{display:grid;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--sh);margin-top:16px}
+.test-person label{font-weight:700;font-size:.85rem;color:var(--muted);display:block;margin-bottom:4px}
+.test-person input{width:100%;max-width:420px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--text);font:inherit}
+.test-person input:focus{outline:0;border-color:var(--accent)}
+.test-q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.test-q .tq-head{display:flex;gap:10px;align-items:flex-start}
+.test-q .tq-num{flex:none;width:26px;height:26px;border-radius:8px;background:var(--accent);color:#04202e;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.test-q .tq-text{font-weight:600}
+.test-q .tq-options{margin:12px 0 0 36px;display:grid;gap:8px}
+.test-q .tq-opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--soft);cursor:pointer;transition:border-color .15s,background .15s}
+.test-q .tq-opt:hover{border-color:var(--accent)}
+.test-q .tq-opt input{margin-top:3px;accent-color:var(--accent);flex:none}
+.test-q .tq-opt.correct{border-color:var(--ok);background:rgba(74,222,128,.1)}
+.test-q .tq-opt.wrong{border-color:var(--warn);background:rgba(251,191,36,.1)}
+.test-q input[type=text].tq-input{width:100%;max-width:340px;margin:10px 0 0 36px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--text);font:inherit}
+.test-q input[type=text].tq-input:focus{outline:0;border-color:var(--accent)}
+.test-q .tq-feedback{display:none;margin:10px 0 0 36px;font-size:.82rem;font-weight:600}
+.test-q .tq-feedback.ok{color:var(--ok)}
+.test-q .tq-feedback.no{color:var(--warn)}
+.test-q.marked .tq-feedback{display:block}
+.test-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.test-result{display:none;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--sh);margin-top:18px}
+.test-result.show{display:block}
+.test-result .tr-grid{display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:center}
+.gauge{position:relative;width:150px;height:150px}
+.gauge svg{transform:rotate(-90deg);display:block}
+.gauge .g-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.gauge .g-num{font-size:1.8rem;font-weight:800;color:var(--accent)}
+.gauge .g-sub{font-size:.72rem;color:var(--muted)}
+.tr-summary h3{margin:0 0 6px}
+.tr-summary ul{margin:6px 0 0;padding-left:20px;color:var(--muted)}
+.tr-summary .tr-person{font-weight:700;color:var(--text)}
+@media(max-width:560px){.test-result .tr-grid{grid-template-columns:1fr}.test-q .tq-options,.test-q .tq-feedback,.test-q input[type=text].tq-input{margin-left:0}}
+@media print{
+  body{background:#fff;animation:none}
+  body::before,body::after{display:none}
+  header.top,footer,.test-actions,#noPrint{display:none!important}
+  .test-q,.test-person,.test-result{border-color:#999;box-shadow:none;background:#fff;color:#000}
+  .test-q .tq-opt{background:#fff;break-inside:avoid}
+  .test-q .tq-opt.correct{background:#e6f6ec;border-color:#2e7d32}
+  .test-q .tq-opt.wrong{background:#fdf3e3;border-color:#b26a00}
+}
+</style></head>
 <body><main class="wrap">
-<div class="page"><div class="tag">04 · КОНТРОЛЬ</div><h1>Оформление лабораторной работы</h1>
-<p>После выполнения лабораторных работ из раздела «Практика» оформите отчёт. Ответы на контрольные вопросы ищите в разделах «Сборка», «Программный код» и самих работах.</p>
+<div class="page"><div class="tag">04 · КОНТРОЛЬ</div><h1>Контрольный тест</h1>
+<p>Ответьте на вопросы. Ответы — в разделах «Сборка», «Программный код» и лабораторных работах. В конце нажмите «Проверить», затем «Сохранить в PDF».</p>
+
 <div class="grid"><div class="card"><h3>Структура отчёта</h3><ol class="l"><li>Титульный лист (тема, ФИО, группа)</li><li>Цель работы</li><li>Оборудование</li><li>Ход выполнения</li><li>Таблица результатов</li><li>Анализ</li><li>Вывод</li></ol></div>
 <div class="card"><h3>Требования к оформлению</h3><ul class="l"><li>Таблица измерений без пропусков — вносите все значения</li><li>Единицы измерения у каждой величины</li><li>Расчёты (среднее, минимум, максимум) поясняйте</li><li>Вывод — по результатам вашей работы</li></ul></div></div>
-<div class="grid"><div class="card"><h3>Контрольные вопросы</h3><ol class="l"><li>Какие детали входят в комплект модели и в каком количестве?</li><li>Каким крепежом соединяются элементы макета?</li><li>Частота Serial Monitor, скорости, используемые в программе?</li><li>Какой протокол и какой адрес у датчика BMP280?</li><li>Какие поля входят в пакет телеметрии?</li><li>Сколько последовательных измерений снимают при калибровке?</li><li>Что вычисляют при обработке телеметрии?</li></ol></div>
-<div class="card"><h3>Где искать ответы</h3><ul class="l"><li>Комплект и крепёж — раздел «Сборка»</li><li>Протокол, адрес и скорость — раздел «Программный код»</li><li>Поля пакета — карточка «Поля пакета» в «Программный код»</li><li>Калибровка и телеметрия — работы из раздела «Практика»</li></ul></div></div></div>
-</main><script src="../app.js"></script></body></html>
+
+<div class="test-person">
+<label>ФИО или название команды + ФИО участников</label>
+<input type="text" id="tperson" placeholder="Например: Иванов И.И. / Команда «Орбита» — Иванов, Петров">
+</div>
+
+<div id="tqwrap"></div>
+
+<div class="test-actions" id="noPrint">
+<button class="btn p" id="tcheck" type="button">Проверить</button>
+<button class="btn" id="treset" type="button">Сбросить</button>
+<button class="btn" id="tsave" type="button" disabled>Сохранить результат в PDF</button>
+</div>
+
+<div class="test-result" id="tresult">
+<div class="tr-grid">
+<div class="gauge" aria-label="Результат теста">
+<svg width="150" height="150" viewBox="0 0 150 150">
+<circle cx="75" cy="75" r="62" fill="none" stroke="var(--line)" stroke-width="13"/>
+<circle id="gfill" cx="75" cy="75" r="62" fill="none" stroke="var(--accent)" stroke-width="13" stroke-linecap="round" stroke-dasharray="389.6 389.6" stroke-dashoffset="389.6" style="transition:stroke-dashoffset 1s ease"/>
+</svg>
+<div class="g-txt"><div><div class="g-num" id="gperc">0%</div><div class="g-sub">верных ответов</div></div></div>
+</div>
+<div class="tr-summary">
+<div class="tr-person" id="tr-person"></div>
+<h3>Результат теста</h3>
+<p id="tr-text"></p>
+<ul id="tr-list"></ul>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="../app.js"></script>
+<script>
+(function(){
+var QUESTIONS=[
+ {type:'single',q:'Какие детали входят в комплект модели?',options:['Панели, фермы, шпажки, крепления, корпус детектора, крепление для монитора','Только панели и винты','Только фермы A и B'],answer:0},
+ {type:'single',q:'Каким крепёжом соединяются элементы макета?',options:['Винты M3','Винты M2','Заклёпки'],answer:0},
+ {type:'single',q:'Сколько шпажек устанавливают при сборке?',options:['4','2','6'],answer:0},
+ {type:'text',q:'Скорость Serial Monitor в программе (число):',expect:'9600'},
+ {type:'text',q:'Протокол, по которому опрашивается датчик BMP280:',expect:'i2c'},
+ {type:'text',q:'Адрес датчика BMP280 (шестнадцатеричный, с префиксом 0x):',expect:'0x76'},
+ {type:'single',q:'Какие поля входят в пакет телеметрии?',options:['TIME, TEMP, PRESS, SENSOR','X, Y, Z','NAME, DATE, TIME'],answer:0},
+ {type:'single',q:'Сколько последовательных измерений снимают при калибровке?',options:['Не менее 10','2','3'],answer:0},
+ {type:'text',q:'Что вычисляют при обработке телеметрии? (три значения через запятую):',expect:'мин, макс, среднее'},
+ {type:'text',q:'Размер макета в мм: 100 × 100 × ___',expect:'238'}
+];
+var N=QUESTIONS.length;
+var wrap=document.getElementById('tqwrap');
+var els=[];
+function norm(s){return (s||'').toLowerCase().replace(/\s+/g,' ').trim().replace(/,$/,'')}
+QUESTIONS.forEach(function(item,i){
+  var q=document.createElement('div');q.className='test-q';
+  var head=document.createElement('div');head.className='tq-head';
+  var num=document.createElement('div');num.className='tq-num';num.textContent=i+1;
+  var txt=document.createElement('div');txt.className='tq-text';txt.textContent=item.q;
+  head.appendChild(num);head.appendChild(txt);q.appendChild(head);
+  var box=null;
+  if(item.type==='single'){
+    var opt=document.createElement('div');opt.className='tq-options';
+    var radios=item.options.map(function(op,oi){
+      var o=document.createElement('label');o.className='tq-opt';
+      var inp=document.createElement('input');inp.type='radio';inp.name='q'+i;inp.value=oi;
+      var sp=document.createElement('span');sp.textContent=op;
+      o.appendChild(inp);o.appendChild(sp);opt.appendChild(o);
+      return {o:o,inp:inp};
+    });
+    q.appendChild(opt);
+    box={type:'single',radios:radios};
+  }else{
+    var inp=document.createElement('input');inp.type='text';inp.className='tq-input';inp.placeholder='Ваш ответ';
+    q.appendChild(inp);
+    box={type:'text',inp:inp};
+  }
+  var fb=document.createElement('div');fb.className='tq-feedback';q.appendChild(fb);
+  wrap.appendChild(q);
+  els.push({box:box,fb:fb,item:item});
+});
+var checkBtn=document.getElementById('tcheck');
+var resetBtn=document.getElementById('treset');
+var saveBtn=document.getElementById('tsave');
+var result=document.getElementById('tresult');
+var person=document.getElementById('tperson');
+function answerOf(box){
+  if(box.type==='single'){
+    var sel=box.radios.filter(function(r){return r.inp.checked});
+    return sel.length?sel[0].inp.value:null;
+  }
+  return box.inp.value;
+}
+function isCorrect(box,item){
+  var a=answerOf(box);
+  if(item.type==='single')return a!==null&&Number(a)===item.answer;
+  if(a===null||a==='')return false;
+  if(item.expect==='мин, макс, среднее'){
+    return ['мин','макс','среднее','минимум','максимум','среднее','min','max','avg'].every(function(k){return a.toLowerCase().indexOf(k)>=0});
+  }
+  return norm(a)===norm(item.expect);
+}
+function mark(){
+  var correct=0;
+  els.forEach(function(el,idx){
+    var ok=isCorrect(el.box,el.item);
+    if(ok)correct++;
+    document.querySelectorAll('.test-q')[idx].classList.add('marked');
+    if(el.box.type==='single'){
+      el.box.radios.forEach(function(r){
+        var good=Number(r.inp.value)===el.item.answer;
+        r.o.classList.toggle('correct',r.inp.checked&&good);
+        r.o.classList.toggle('wrong',r.inp.checked&&!good);
+      });
+    }
+    el.fb.textContent=ok?'Верно':'Неверно';
+    el.fb.className='tq-feedback '+(ok?'ok':'no');
+    if(!ok&&el.item.type==='single'){el.fb.textContent+=' · правильный ответ: '+el.item.options[el.item.answer];}
+  });
+  showResult(correct);
+}
+function percentOf(c){return Math.round(c/N*100)}
+function showResult(c){
+  var p=percentOf(c);
+  var g=document.getElementById('gfill');
+  var circ=389.6;
+  g.style.strokeDashoffset=circ-(circ*p/100);
+  document.getElementById('gperc').textContent=p+'%';
+  var tp=person.value.trim()||'Не указано';
+  document.getElementById('tr-person').textContent='Работа ученика: '+tp;
+  document.getElementById('tr-text').textContent='Верных ответов: '+c+' из '+N+' ('+p+'%).';
+  var list=document.getElementById('tr-list');
+  list.innerHTML='';
+  els.forEach(function(tot,i){
+    var ok=isCorrect(tot.box,tot.item);
+    var li=document.createElement('li');
+    li.textContent=(i+1)+'. '+(ok?'✓':'✗')+' '+tot.item.q;
+    list.appendChild(li);
+  });
+  result.classList.add('show');
+  saveBtn.disabled=false;
+  result.scrollIntoView({behavior:'smooth'});
+}
+checkBtn.addEventListener('click',mark);
+resetBtn.addEventListener('click',function(){
+  els.forEach(function(el){
+    if(el.box.type==='single')el.box.radios.forEach(function(r){r.inp.checked=false;r.o.classList.remove('correct','wrong')});
+    else el.box.inp.value='';
+  });
+  document.querySelectorAll('.test-q').forEach(function(q){q.classList.remove('marked')});
+  result.classList.remove('show');
+  saveBtn.disabled=true;
+});
+saveBtn.addEventListener('click',function(){window.print()});
+})();
+</script>
+</body></html>
